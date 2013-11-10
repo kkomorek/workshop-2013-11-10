@@ -36,6 +36,7 @@ public class ListAllAccounts extends HttpServlet {
 
         List<User> users = (List<User>) request.getServletContext().getAttribute("users");
 
+        User logged = (User) request.getSession().getAttribute("logedUser");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -45,6 +46,13 @@ public class ListAllAccounts extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
 
+            out.println("<h2>");
+            if (logged != null) {
+                out.println("You are logged as " + logged.getFirstName());
+            } else {
+                out.println("You are not logged in");
+            }
+            out.println("</h2>");
             out.println("<table border='1'>");
             out.println("<tr>");
             out.println("<th>FirstName</th><th>LastName</th><th>Email</th>");

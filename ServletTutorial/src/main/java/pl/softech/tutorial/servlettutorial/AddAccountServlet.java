@@ -39,6 +39,8 @@ public class AddAccountServlet extends HttpServlet {
         user.setFirstName(request.getParameter("firstName"));
         user.setLastName(request.getParameter("lastName"));
         user.setEmail(request.getParameter("email"));
+        user.setLogin(request.getParameter("login"));
+        user.setPassword(request.getParameter("password"));
         
         List<User> users = (List<User>) request.getServletContext().getAttribute("users");
         
