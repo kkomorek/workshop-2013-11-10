@@ -6,6 +6,8 @@
 
 package pl.softech.tutorial.servlettutorial;
 
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -20,6 +22,16 @@ public class InitRootUserServletListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        
+        List<User>  users = new LinkedList<>();
+        User root = new User();
+        root.setFirstName("Root");
+        root.setEmail("root@gmail.com");
+        root.setLastName("Root");
+        root.setLogin("root");
+        root.setLogin("test");
+        users.add(root);
+        sce.getServletContext().setAttribute("users", users);
     }
 
     @Override
