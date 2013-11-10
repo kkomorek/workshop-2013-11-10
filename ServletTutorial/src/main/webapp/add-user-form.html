@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <form action="add-account" method="POST">
+            <p>
+                <label for="firstName">FirstName:</label>
+                <input type="text" id="firstName" name="firstName"/>
+            </p>
+            <p>
+                <label for="lastName">LastName:</label>
+                <input type="text" id="lastName" name="lsatName" required=""/>
+            </p>
+            <p>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"/>
+            </p>
+            <input type="submit"/>
+        </form>
+        <a href="list-all-accounts">List Accounts</a>    
+    </body>
+</html>
