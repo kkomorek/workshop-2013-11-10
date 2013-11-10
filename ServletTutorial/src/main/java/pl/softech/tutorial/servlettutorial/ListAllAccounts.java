@@ -50,18 +50,20 @@ public class ListAllAccounts extends HttpServlet {
             out.println("<th>FirstName</th><th>LastName</th><th>Email</th>");
             out.println("</tr>");
 
-            for (User user : users) {
-                out.println("<tr>");
-                out.println("<td>");
-                out.println(user.getFirstName());
-                out.println("</td>");
-                out.println("<td>");
-                out.println(user.getLastName());
-                out.println("</td>");
-                out.println("<td>");
-                out.println(user.getEmail());
-                out.println("</td>");
-                out.println("</tr>");
+            if (users != null) {
+                for (User user : users) {
+                    out.println("<tr>");
+                    out.println("<td>");
+                    out.println(user.getFirstName());
+                    out.println("</td>");
+                    out.println("<td>");
+                    out.println(user.getLastName());
+                    out.println("</td>");
+                    out.println("<td>");
+                    out.println(user.getEmail());
+                    out.println("</td>");
+                    out.println("</tr>");
+                }
             }
             out.println("</table>");
 
