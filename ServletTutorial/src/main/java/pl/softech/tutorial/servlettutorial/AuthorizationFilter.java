@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ssledz
  */
-@WebFilter(filterName = "AuthorizationFilter", urlPatterns = {"/add-user-form.html", "/list-all-accounts"})
+@WebFilter(filterName = "AuthorizationFilter", urlPatterns = {"/add-user-form.html", "/list-all-accounts", "/add-account"})
 public class AuthorizationFilter implements Filter {
 
     /**
