@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.softech.tutorial.servlettutorial;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,36 +33,39 @@ public class ListAllAccounts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        User user = (User) request.getServletContext().getAttribute("user");
-        
+
+        List<User> users = (List<User>) request.getServletContext().getAttribute("users");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListAllAccounts</title>");            
+            out.println("<title>Servlet ListAllAccounts</title>");
             out.println("</head>");
             out.println("<body>");
-            
+
             out.println("<table border='1'>");
             out.println("<tr>");
             out.println("<th>FirstName</th><th>LastName</th><th>Email</th>");
             out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td>");
-            out.println(user.getFirstName());
-            out.println("</td>");
-            out.println("<td>");
-            out.println(user.getLastName());
-            out.println("</td>");
-            out.println("<td>");
-            out.println(user.getEmail());
-            out.println("</td>");
-            out.println("</tr>");
+
+            for (User user : users) {
+                out.println("<tr>");
+                out.println("<td>");
+                out.println(user.getFirstName());
+                out.println("</td>");
+                out.println("<td>");
+                out.println(user.getLastName());
+                out.println("</td>");
+                out.println("<td>");
+                out.println(user.getEmail());
+                out.println("</td>");
+                out.println("</tr>");
+            }
             out.println("</table>");
-            
-            out.println("<h1>Servlet ListAllAccounts at " + request.getContextPath() + "</h1>");
+
+            out.println("<a href='add-user-form.html'>Add User Form</a>");
             out.println("</body>");
             out.println("</html>");
         }

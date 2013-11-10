@@ -8,6 +8,8 @@ package pl.softech.tutorial.servlettutorial;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +40,14 @@ public class AddAccountServlet extends HttpServlet {
         user.setLastName(request.getParameter("lastName"));
         user.setEmail(request.getParameter("email"));
         
-        request.getServletContext().setAttribute("user", user);
+        List<User> users = (List<User>) request.getServletContext().getAttribute("users");
+        
+        if(users == null) {
+            users = new LinkedList<>();
+            request.getServletContext().setAttribute("users", users);
+        }
+        
+        users.add(user);
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -51,6 +60,7 @@ public class AddAccountServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet AddAccountServlet at " + request.getContextPath() + "</h1>");
             out.println("<a href='add-user-form.html'>Add User Form</a>");
+            out.println("<a href='list-all-accounts'>List All User</a>");
             out.println("</body>");
             out.println("</html>");
         }
