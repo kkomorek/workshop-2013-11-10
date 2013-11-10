@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package pl.softech.tutorial.servlettutorial;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ssledz
  */
-@WebServlet(name = "ListAllAccounts", urlPatterns = {"/list-all-accounts"})
-public class ListAllAccounts extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/logout"})
+public class LogoutController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,50 +33,19 @@ public class ListAllAccounts extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        List<User> users = (List<User>) request.getServletContext().getAttribute("users");
-
-        User logged = (User) request.getSession().getAttribute("logedUser");
+        
+        request.getSession().removeAttribute("logedUser");
+        
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListAllAccounts</title>");
+            out.println("<title>Servlet LogoutController</title>");            
             out.println("</head>");
             out.println("<body>");
-
-            out.println("<h2>");
-            if (logged != null) {
-                out.println("You are logged as " + logged.getFirstName());
-            } else {
-                out.println("You are not logged in");
-            }
-            out.println("</h2>");
-            out.println("<table border='1'>");
-            out.println("<tr>");
-            out.println("<th>FirstName</th><th>LastName</th><th>Email</th>");
-            out.println("</tr>");
-
-            if (users != null) {
-                for (User user : users) {
-                    out.println("<tr>");
-                    out.println("<td>");
-                    out.println(user.getFirstName());
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(user.getLastName());
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(user.getEmail());
-                    out.println("</td>");
-                    out.println("</tr>");
-                }
-            }
-            out.println("</table>");
-
-            out.println("<a href='add-user-form.html'>Add User Form</a>");
-            out.println("<a href='logout'>Logout</a>");
+            out.println("<h1>You are logged out</h1>");
+            out.println("<a href='login.html'>Login Form</a>");
             out.println("</body>");
             out.println("</html>");
         }
