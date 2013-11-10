@@ -29,7 +29,7 @@ public class InitRootUserServletListener implements ServletContextListener {
         root.setEmail("root@gmail.com");
         root.setLastName("Root");
         root.setLogin("root");
-        root.setLogin("test");
+        root.setPassword("test");
         users.add(root);
         sce.getServletContext().setAttribute("users", users);
     }
