@@ -38,6 +38,8 @@ public class AddAccountServlet extends HttpServlet {
         user.setLastName(request.getParameter("lastName"));
         user.setEmail(request.getParameter("email"));
         
+        request.getServletContext().setAttribute("user", user);
+        
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
