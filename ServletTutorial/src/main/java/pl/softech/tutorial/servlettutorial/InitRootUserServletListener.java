@@ -3,14 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.softech.tutorial.servlettutorial;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.sql.DataSource;
+import pl.softech.tutorial.servlettutorial.dao.UserDao;
 
 /**
  * Web application lifecycle listener.
@@ -20,17 +28,42 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class InitRootUserServletListener implements ServletContextListener {
 
+    @Resource(mappedName = "jdbc/myUsersDatasource")
+    private DataSource ds;
+
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        UserDao userDao = new UserDao(ds);
+        sce.getServletContext().setAttribute("userDao", userDao);
         
-        List<User>  users = new LinkedList<>();
-        User root = new User();
-        root.setFirstName("Root");
-        root.setEmail("root@gmail.com");
-        root.setLastName("Root");
-        root.setLogin("root");
-        root.setPassword("test");
-        users.add(root);
+        List<User> users = new LinkedList<>();
+
+        try (Connection conn = ds.getConnection()) {
+            
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from ssledz.myuser");
+            
+            while(rs.next()) {
+            
+                User user = new User();
+                user.setEmail(rs.getString("email"));
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
+                users.add(user);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(InitRootUserServletListener.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        User root = new User();
+//        root.setFirstName("Root");
+//        root.setEmail("root@gmail.com");
+//        root.setLastName("Root");
+//        root.setLogin("root");
+//        root.setPassword("test");
+//        users.add(root);
         sce.getServletContext().setAttribute("users", users);
     }
 
