@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pl.softech.tutorial.servlettutorial.dao.UserDao;
 
 /**
  *
@@ -34,8 +35,10 @@ public class ListAllAccounts extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        List<User> users = (List<User>) request.getServletContext().getAttribute("users");
-
+        UserDao userDao = (UserDao) request.getServletContext().getAttribute("userDao");
+        
+        List<User> users = userDao.findAll();
+        
         User logged = (User) request.getSession().getAttribute("logedUser");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */

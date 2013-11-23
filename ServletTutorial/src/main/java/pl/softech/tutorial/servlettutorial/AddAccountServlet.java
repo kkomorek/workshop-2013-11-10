@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pl.softech.tutorial.servlettutorial.dao.UserDao;
 
 /**
  *
@@ -42,14 +43,8 @@ public class AddAccountServlet extends HttpServlet {
         user.setLogin(request.getParameter("login"));
         user.setPassword(request.getParameter("password"));
         
-        List<User> users = (List<User>) request.getServletContext().getAttribute("users");
-        
-        if(users == null) {
-            users = new LinkedList<>();
-            request.getServletContext().setAttribute("users", users);
-        }
-        
-        users.add(user);
+         UserDao userDao = (UserDao) request.getServletContext().getAttribute("userDao");
+         userDao.createUser(user);
         
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {

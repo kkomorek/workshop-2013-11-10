@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package pl.softech.tutorial.servlettutorial;
 
 import java.io.IOException;
@@ -14,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pl.softech.tutorial.servlettutorial.dao.UserDao;
 
 /**
  *
@@ -33,45 +33,40 @@ public class LoginFormController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        
+
         User logged = null;
-        
-        if(login != null && password != null) {
-            
-            List<User> users = (List<User>) request.getServletContext().getAttribute("users");
-            
-            for(User user : users) {
-                
-                if(user.getLogin().equals(login) && user.getPassword().equals(password)) {
-                    request.getSession().setAttribute("logedUser", user);
-                    logged = user;
-                    break;
-                }
-                
+
+        if (login != null && password != null) {
+
+            UserDao userDao = (UserDao) request.getServletContext().getAttribute("userDao");
+
+            logged = userDao.find(login, password);
+
+            if (logged != null) {
+                request.getSession().setAttribute("logedUser", logged);
             }
-            
         }
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginFormController</title>");            
+            out.println("<title>Servlet LoginFormController</title>");
             out.println("</head>");
             out.println("<body>");
-            
-            if(logged != null) {
+
+            if (logged != null) {
                 out.println("<h1> Hello " + logged.getFirstName() + " !</h1>");
                 out.println("<a href='add-user-form.html'>Add User Form</a>");
                 out.println("<a href='list-all-accounts'>List All User</a>");
             } else {
                 response.sendRedirect("login.html");
             }
-            
+
             out.println("</body>");
             out.println("</html>");
         }

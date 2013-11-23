@@ -36,35 +36,7 @@ public class InitRootUserServletListener implements ServletContextListener {
 
         UserDao userDao = new UserDao(ds);
         sce.getServletContext().setAttribute("userDao", userDao);
-        
-        List<User> users = new LinkedList<>();
 
-        try (Connection conn = ds.getConnection()) {
-            
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery("select * from ssledz.myuser");
-            
-            while(rs.next()) {
-            
-                User user = new User();
-                user.setEmail(rs.getString("email"));
-                user.setLogin(rs.getString("login"));
-                user.setPassword(rs.getString("password"));
-                users.add(user);
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(InitRootUserServletListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-//        User root = new User();
-//        root.setFirstName("Root");
-//        root.setEmail("root@gmail.com");
-//        root.setLastName("Root");
-//        root.setLogin("root");
-//        root.setPassword("test");
-//        users.add(root);
-        sce.getServletContext().setAttribute("users", users);
     }
 
     @Override
